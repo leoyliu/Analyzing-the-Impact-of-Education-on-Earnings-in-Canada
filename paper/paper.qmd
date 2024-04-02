@@ -1,14 +1,13 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Degrees of Difference: Analyzing the Impact of Education on Earnings in Canada"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Yuanyi (Leo) Liu
+thanks: "Code and data are available at: https://github.com/leoyliu/Analyzing-the-Impact-of-Education-on-Earnings-in-Canada"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "In this paper, we explore the connection between education and hourly wages in Canada, focusing on data from the year 2000. Our findings indicate a clear trend: higher educational levels correlate with increased average hourly wages across all age categories. This research highlights the importance of education in determining earning potential and suggests that investment in education could have long-term economic benefits. The study provides evidence for policy implications regarding educational incentives and workforce development strategies in Canada."
 format: pdf
+toc: true
 number-sections: true
 bibliography: references.bib
 ---
@@ -18,63 +17,61 @@ bibliography: references.bib
 #| warning: false
 #| message: false
 
+# install.packages("tidyverse")
+# install.packages("dplyr")
+# install.packages("here")
+# install.packages("mapdata")
+# install.packages("ggplot2")
+# install.packages("haven")
+# install.packages("kableExtra")
+
 library(tidyverse)
-library(palmerpenguins)
+library(dplyr)
+library(here)
+library(mapdata)
+library(ggplot2)
+library(haven)
+library(kableExtra)
 ```
 
+# Introduction {#sec-intro}
 
-# Introduction
+The relationship between education and earnings is a well-established topic of interest within the field of labor economics, providing insights into the broader socio-economic fabric of a country. As Canada's economy continues to diversify and specialize in various sectors, the value of education in this landscape remains a critical question for policymakers and the public. While previous studies have explored this link, there is an ongoing need to update and deepen our understanding of how this dynamic plays out across different age groups in the modern economy.
 
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+This paper aims to fill the knowledge gap by analyzing the impact of education levels on the average hourly wage rate in Canada, with a specific focus on three age cohorts: young entrants (15-24 years), established workers (25-54 years), and senior professionals (55 years and over). The analysis begins in the year 2000, a period of significant technological advancement and economic change, offering a contemporary perspective on the education-wage relationship. By dissecting the data across these age groups, the study provides nuanced insights into the economic returns of education at various career stages.
 
-The remainder of this paper is structured as follows. @sec-data....
+Our research methodology involved a detailed statistical analysis of wage data, stratified by education level and age group, to uncover patterns and variations in earnings. The findings confirm the hypothesis that higher education correlates with increased wages, with the effect becoming more significant as workers age. This not only reinforces the case for educational investment but also suggests that such investment pays dividends throughout an individual’s career, not just in the early years.
 
+In this study, our primary focus is to estimate the effect of education on hourly wages across different age groups in Canada. Our estimand is the incremental average hourly wage rate for individuals within the specified education levels, compared to the next lower education level, while controlling for age. By quantifying this effect, we aim to capture the economic value of educational attainment and how it translates into wage premiums across various stages of a typical Canadian worker’s career span.
+
+The structure of the paper is organized as follows: Following @sec-intro, @sec-data presents the data, detailing the data sources, analytical techniques, and the rationale behind the chosen methods. @sec-model then delves into the specifics of the linear model analysis, laying out the statistical underpinnings that support our investigation. After that, @sec-result discusses the results, elaborating on the observed trends and patterns in wage rate data. @sec-discussion interprets these findings in light of the current economic and educational context in Canada, exploring potential factors influencing these trends, drawing connections to broader socio-economic issues, and providing suggestions for future research in this area.
 
 
 # Data {#sec-data}
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+This section aims to offer an insightful understanding of the dataset utilized in our analysis. The dataset captures the birth rates across various demographics in the United States from 1980 to 2020. The data provide a broader context, allowing an analysis of trends over time and across different economic cycles, including the period of the Great Recession.
 
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
+## Source and Methodology
+Data on birth rates for women aged 15-44 were sourced from National Vital Statistics Reports covering 2015, 2019, and 2020 [@cite2015birth; @cite2019birth; @cite2020birth], compiled from birth certificates across the US and the District of Columbia. @citeoriginal provided aggregated birth data for six cohorts over five-year spans, derived from the NBER Natality Database [@citeNBER] and NCHS microdata [@citeNCHS] for 1980-2019. In this study, we simply used the replication data package provided by @citeoriginal for analysis.
 
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
+While there were alternative datasets available from other public and private sources, this dataset was chosen due to its comprehensive coverage, reliability, and the level of detail it offers. It includes data from the National Center for Health Statistics [@citeNCHS] and the U.S. Census Bureau, which are both reputable sources of demographic data.
 
-Talk more about it.
+The data was processed and cleaned using R[@citeR], a powerful statistical programming language. For key operations, please refer to the [@sec-appendix]. 
 
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
+## Variables
 
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
+To better understand the data, a summary table was developed to provide a detailed description of each variable, explaining its relevance and how it contributes to our understanding of the topic. Our focus is not only on the direct measures of birth rates but also on a range of demographic and economic variables that offer a comprehensive view of the factors influencing fertility decisions during the recessionary period.
 
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
+## Measurements
 
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
+The measurement of birth rates in our study involves a detailed analysis of the annual number of live births per 1,000 women in various age groups, ranging from 15 to 44 years. These rates were extracted from datasets provided by the National Center for Health Statistics (NCHS) [@citeNCHS], ensuring accuracy and reliability in capturing demographic trends across the United States from 1980 to 2020.
 
-Talk way more about it. 
+For each age group, birth rates were calculated by dividing the total number of live births by the population of women in that age range, then multiplying by 1,000 to standardize the measure. This approach allows for comparison across different demographics and time periods, providing a clear picture of how birth rates have shifted, particularly in response to economic conditions such as the Great Recession.
+
+In addition to age-specific birth rates, state-level data were also analyzed to identify geographic variations in birth rate trends. This involved mapping birth rates against state populations, taking into consideration the exclusion of data from states like Alaska and Hawaii where mapping constraints exist. Further details on this aspect of our study are discussed in @sec-result.
 
 
-
-# Model
+# Model {#sec-model}
 
 The goal of our modelling strategy is twofold. Firstly,...
 
@@ -103,54 +100,42 @@ We expect a positive relationship between the size of the wings and time spent a
 We can use maths by including latex between dollar signs, for instance $\theta$.
 
 
-# Results
+# Results {#sec-result}
 
-Our results are summarized in @tbl-modelresults.
+@sec-result presents the core findings from our analysis of US birth rates, specifically focusing on the changes observed over time, across different age groups of young women, and by state.
 
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
+In conclusion, our findings provide a complete perspective of dropping birth rates in the United States, demonstrating both temporal and demographic tendencies. The upcoming @sec-discussion will look at the various variables and biases that may be driving these trends.
 
-library(rstanarm)
+\newpage
 
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
-```
+# Discussion {#sec-discussion}
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
+The findings of this study offer a layered perspective on the decline in birth rates among young people in the United States, particularly in the context of the Great Recession. Our analysis provides an understanding of the multifaceted influences on demographic trends.
 
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
+## Findings
 
+In our replication of @citeoriginal, we reaffirmed the central finding that the Great Recession has had a lasting impact on birth rates among young people in the United States. Our analysis of Figures 1 and 2 showed a pronounced decline in birth rates across all age groups, with the steepest decrease observed among those aged 15-29. This trend extended beyond the economic recovery, suggesting that the Great Recession may have fundamentally altered the family planning trajectory of a generation.
 
+## Economic Impact Insights
 
+The dramatic drop in birth rates among young Americans during and after the Great Recession demonstrates the profound impact of economic hardship on reproductive decisions. This decline in birth rates is not simply coincidental with the date of the recession, but rather indicates a deeper, more systemic influence of economic insecurity on personal life choices, notably the decision to establish or expand a family. The persistence of this pattern, even in the years after economic recovery, suggests that the effects of the recession went beyond immediate financial hardship, influencing long-term views of financial security and stability. This is further evidenced by the lack of rebound in birth rates post-recession, which might have been anticipated if the decline were solely due to immediate economic pressures.
 
-# Discussion
+The economic model of fertility provides a framework for understanding these patterns by taking into account the cost of pregnancy and raising as well as the opportunity costs associated with parental time and resources. The recession likely increased these expenditures and opportunity costs, making the decision to have children more difficult. Unemployment and job uncertainty may have caused a reevaluation of the feasibility of having children, resulting in the postponement or avoidance of childbirth. Furthermore, the economic downturn may have shifted young adults' expectations and desires for financial security, impacting their family planning decisions.
 
-## First discussion point {#sec-first-point}
+## Societal and Technological Influences
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+Apart from economic factors, the decline in birth rates among young people also reflects broader societal and technological shifts. The period following the Great Recession coincided with significant changes in social norms, increased educational and career opportunities for women, and advancements in reproductive technology. These factors collectively have empowered individuals, especially women, to make more independent decisions regarding their reproductive health and family planning.
 
-## Second discussion point
+As women's educational attainment and labor force involvement have increased, so has the opportunity cost of childbirth, potentially contributing to the drop in birth rates. Technological developments have given women greater control over their fertility, allowing for more intentional planning around childbirth. Social changes, such as delayed marriage and a growing acceptance of childlessness or smaller family sizes as realistic lifestyle options, further compound these tendencies.
 
-## Third discussion point
+The interaction of these economic, social, and technical elements has altered the landscape of family planning for young Americans. While the economic model of fertility provides a framework for understanding these developments, including sociological and technical effects provides a more complete view of the dynamics affecting current birth rate patterns.
 
-## Weaknesses and next steps
+## Weaknesses and Future Research Directions
 
-Weaknesses and next steps should also be included.
+One limitation of our study is the potential for unobserved variables that could affect birth rates, such as cultural shifts and changes in social norms, which were not fully captured in the data. Additionally, the original study did not account for the influence of the Affordable Care Act and its potential impact on family planning decisions, an area our study also does not explore.
+
+Future research should aim to disentangle these complex relationships further, perhaps through longitudinal studies or by incorporating more detailed data on individual socioeconomic status. Understanding these dynamics is crucial for developing policies that support young people in their family planning decisions during and after economic downturns.
+
 
 \newpage
 
@@ -158,58 +143,15 @@ Weaknesses and next steps should also be included.
 
 # Appendix {-}
 
+# Data Manipulation and Cleaning {#sec-appendix}
 
-# Additional data details
+Most of the data in our dataset was previously cleaned for the project we are replicating. Thus, @fig-trends-in-birth-rate directly used data from `outputs/data/fig_1.csv` without any further cleaning necessary, as it simply displays the birth rate from 1980 to 2020. Thus, the cleaned data is directly stored to `outputs/data/fig_1.csv` from `inputs/data/fig_1.csv`.
 
-# Model details {#sec-model-details}
+In @fig-trends-in-birth-rate-in-young-people, the dataset was imported from `inputs/data/fig_2.csv` and used `dpylr` [@citedplyr] to select the birth rates of the six age groups (from 15 to 44). Furthermore, the selected data was renamed using `tidyverse` [@citetidyverse] and changed into names that represent the content of the data better. Moreover, these data is then pivoted using `tidyverse` [@citetidyverse] in order to be graphed properly using `ggplot2` [@citeggplot].
 
-## Posterior predictive check
+In @fig-birth-rate-comparison-old-and-young, the first dataset was imported from `inputs/data/fig_3.csv` and the dataset containing American states information was from `mapdata` [@citemapdata]. The first dataset was first sliced to remove birth rate information regarding the states of Alaska and Hawaii, as these two states can't be properly shown in the dataset from `mapdata` [@citemapdata]. Then, a temporary data frame is created with tibble from `tidyverse` [@citetidyverse] with the abbreviated state names from `inputs/data/fig_3.csv` and the state full names. Moreover, the abbreviated state name in the first dataset is switched with the state full name using left_join from `dpylr` [@citedplyr], which is then selected and renamed using `tidyverse` [@citetidyverse]. After this, the adjusted dataset with the state full names and birth rate is merged with the second dataset that contains the American states information for further graphing with `haven` [@citehaven].
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
+In all three figures, the library `here` [@citehere] was used to ensure that the file path should be accessible in all directories.
 
 
 
@@ -217,5 +159,3 @@ plot(first_model, "rhat")
 
 
 # References
-
-
