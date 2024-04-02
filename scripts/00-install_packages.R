@@ -1,19 +1,15 @@
 #### Preamble ####
-# Purpose: Simulates... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Install necessary packages
+# Author: Yuanyi (Leo) Liu
+# Date: 31 March 2024
+# Contact: leoy.liu@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: [...UPDATE THIS...]
 # Any other information needed? [...UPDATE THIS...]
 
 
-#### Workspace setup ####
-library(tidyverse)
-# [...UPDATE THIS...]
-
-#### Simulate data ####
-# [...ADD CODE HERE...]
-
-
-
+#### Install packages ####
+install.packages("tidyverse")
+install.packages("arrow")
+install.packages("dplyr")
+install.packages("rstanarm")
