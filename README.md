@@ -2,22 +2,25 @@
 
 ## Overview
 
-This repository contains a replicated paper from [Kearney, Levine and Pardue (2022) 's paper, "The Puzzle of Falling US Birth Rates since the Great Recession"](https://www.aeaweb.org/articles?id=10.1257/jep.36.1.151). The paper delves into the long-term effects of the Great Recession on the fertility decisions of the young adult population in the U.S. It utilizes an extensive dataset from the National Vital Statistics Reports, spanning from 1980 to 2020, to analyze trends over time and across various demographics. Through a rigorous quantitative analysis, the study reveals a notable decline in birth rates among young Americans during and following the recession. The paper aims to provide insights into the relationship between economic stability and reproductive choices, highlighting the need for policies that support young individuals during economic crises.
+The repository contains a study that investigates the impact of education levels on the average hourly wage rate for Canadians aged 25-54, using data from the years 2000 to 2019. It methodically examines the correlation between educational attainment and the average hourly wage rate through a linear regression model. By transforming educational levels into numeric values, the study constructs a clear, quantitative representation of the educational hierarchy and its influence on earnings. The findings aim to provide evidence to reinforce the hypothesis that higher educational attainment is associated with increased earnings within the targeted demographic, offering valuable insights for economic and educational policy-making.
 
-## Files structure
+## File Structure
 
--   `inputs/` holds the `data/` directory with original dataset, `llm/` directory with llm usage, and `sketch` directory with the sketch for dataset and observation.
--   `outputs/` contains the `paper/` directory featuring the paper's PDF, the R Markdown script, and sourced references and `data/` directory with cleaned dataset.
--   `scripts/` contains the R script employed for data cleaning, simulation, and testing.
--   `replications/` holds the `plots/` folder with replicated plots, and `scripts/` directory that contains R script employed for replicating the plots.
+The repo is structured as:
 
-## LLM Usage
+-   `data/raw_data` contains the raw data as obtained from Government of Ontario.
+-   `data/analysis_data` contains the cleaned dataset that was constructed.
+-   `model` contains fitted models.
+-   `other` contains datasheet, details about LLM chat interactions and sketches.
+-   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
+-   `scripts` contains the R scripts used to simulate, clean, test and model data.
 
-The Chat-GPT4 model contributed to the creation of data validation tests.
+## Statement on LLM usage
 
+The Chat-GPT4 model contributed to the creation of data validation tests. The entire chat history is available in `other/llm/usage.txt`.
 
----
+------------------------------------------------------------------------
 
-*Note: Our script does not include a feature for data downloading. For those interested in acquiring the datasets, please consult the study by Kearney, Levine, and Pardue (2022), titled "The Puzzle of Falling US Birth Rates since the Great Recession," available through their [openICPSR project page](https://www.openicpsr.org/openicpsr/project/144981/version/V1/view?path=/openicpsr/144981/fcr:versions/V1/data&type=folder). The relevant files are named fig_1.csv, fig_2a_2b.csv, and fig_3.csv. After downloading, use the read function in R to load the data and execute our analysis R scripts.*
+*Note: Our script does not include a feature for data downloading. For those interested in acquiring the datasets, please visit [Open Government Canada](https://open.canada.ca/data/en/dataset/1f14addd-e4fc-4a07-9982-ad98db07ef86/resource/7a7932bd-0cb5-440e-b3e2-ecfd3f840144) to obtain the necessary datasets. The relevant file is named 'Wages by education level'. After downloading, please place the raw data into the `data/raw_data` directory. Subsequently,  use the read function in R to load the data for analysis using our provided R scripts.*
 
----
+------------------------------------------------------------------------
