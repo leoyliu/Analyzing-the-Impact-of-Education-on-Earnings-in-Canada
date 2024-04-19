@@ -20,28 +20,45 @@ library(dplyr)
 
 set.seed(853)
 
-# Initialize a tibble
-simulated_data <- tibble(
-  year = c(1980:2020),
-  br_1519 = abs(rnorm(n = 41,mean = 50.5, sd=10.5)),
-  br_2024 = abs(rnorm(n = 41,mean = 55.5, sd=10.5)),
-  br_2529 = abs(rnorm(n = 41,mean = 80.5, sd=5.5)),
-  br_3034 = abs(rnorm(n = 41,mean = 55.5, sd=5.5)),
-  br_3539 = abs(rnorm(n = 41,mean = 35.5, sd=5.5)),
-  br_4044 = abs(rnorm(n = 41,mean = 25.5, sd=5.5)),
-)
+# Set parameters for simulation
+years <- 2000:2019
+education_levels <- c("0 - 8 years", "High school graduate", 
+                      "Post-secondary certificate or diploma", "Trade certificate or diploma", 
+                      "Community college, CEGEP", "University certificate below bachelors degree", 
+                      "University degree", "Bachelor's degree", "Above bachelor's degree")
+age_group <- "25-54 years"
 
-simulated_data$Younger <- simulated_data |>
-  select(
-    br_1519,br_2024,br_2529
-  ) |>
-  rowMeans()
+# Simulate data
+simulated_data <- expand.grid(Year = years, 
+                              Education_level = education_levels, 
+                              Age_group = age_group)
 
-simulated_data$Older <- simulated_data |>
-  select(
-    br_3034,br_3539,br_4044
-  ) |>
-  rowMeans()
+# Assign education_numeric based on order in education_levels
+simulated_data$Education_numeric <- as.integer(factor(simulated_data$Education_level, levels = education_levels))
 
-# View the simulated data
-print(simulated_data)
+# Define the wage rate ranges for each education level
+wage_rate_ranges <- list(
+  `0 - 8 years` = c(11, 13),
+  `High school graduate` = c(12, 14),
+  `Post-secondary certificate or diploma` = c(13, 15),
+  `Trade certificate or diploma` = c(14, 16),  
+  `Community college, CEGEP` = c(16, 18),
+  `University certificate below bachelors degree` = c(18, 20),
+  `University degree` = c(21, 24),
+  `Bachelor's degree` = c(24, 27),
+  `Above bachelor's degree` = c(28, 32))
+
+# Apply the wage rate ranges to the Avg_hourly_wage_rate column based on Education_level
+simulated_data <- simulated_data %>%
+  rowwise() %>%
+  mutate(Avg_hourly_wage_rate = round(runif(1, min = wage_rate_ranges[[Education_level]][1], 
+                                            max = wage_rate_ranges[[Education_level]][2]), 2))
+
+# Reset the order of the rows and remove the row names
+simulated_data <- simulated_data %>%
+  ungroup() %>%
+  arrange(Year, Education_level) %>%
+  select(Year, Education_level, Age_group, Avg_hourly_wage_rate, Education_numeric)
+
+# View the first few rows of the simulated dataset
+head(simulated_data)

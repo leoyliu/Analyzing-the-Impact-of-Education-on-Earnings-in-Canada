@@ -12,14 +12,32 @@
 library(tidyverse)
 library(arrow)
 library(rstanarm)
+library(modelsummary)
+
 
 #### Read data ####
-analysis_data <- read_parquet(file = "data/analysis_data/analysis_data.parquet")
+analysis_data <- read.csv(file = "data/analysis_data/analysis_data.csv")
+
+plot1 = analysis_data |>
+  ggplot(aes(x = Education_numeric, y = Avg.hourly.wage.rate)) +
+  geom_point(alpha = 0.5) +
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+plot1 +
+  geom_smooth(
+    method = "lm",
+    se = TRUE,
+    color = "black",
+    linetype = "dashed",
+    formula = "y ~ x"
+  )
+
 
 ### Model data ####
 first_model <-
   stan_glm(
-    formula = `Avg hourly wage rate` ~ `Education level` + `Age group`,
+    formula = Avg.hourly.wage.rate ~ Education_numeric,
     data = analysis_data,
     family = gaussian(),
     prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
@@ -27,6 +45,12 @@ first_model <-
     prior_aux = exponential(rate = 1, autoscale = TRUE),
     seed = 853
   )
+
+modelsummary(
+  list(
+    "Auto-scaling priors" = first_model
+  )
+)
 
 
 #### Save model ####
