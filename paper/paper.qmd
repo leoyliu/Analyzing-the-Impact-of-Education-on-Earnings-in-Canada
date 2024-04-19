@@ -21,7 +21,6 @@ library(tidyverse)
 library(dplyr)
 library(here)
 library(ggplot2)
-library(haven)
 library(kableExtra)
 library(modelsummary)
 library(rstanarm)
@@ -53,11 +52,11 @@ This study uses a dataset sourced from the Open Government Portal of Canada [@ci
 
 Alternative datasets, such as those from Statistics Canada’s Labour Force Survey, were considered but were not selected due to their less detailed categorization of education levels and their broader focus on employment without specific wage breakdowns by education.
 
-The data was processed and cleaned using R[@citeR], a powerful statistical programming language. The selection of this dataset was motivated by its direct relevance to the research question and its regular updates, ensuring that the data remains relevant for observing current trends. Initial data processing involved filtering the dataset to focus solely on entries categorized under 'Canada' in geography, eliminating data irrelevant to the national focus of this research. This step was crucial to maintaining the clarity and relevance of the analysis. For key operations, please refer to the [Appendix -@sec-data-cleaning]. 
+The data was processed and cleaned using `R` [@citeR], a powerful statistical programming language. The selection of this dataset was motivated by its direct relevance to the research question and its regular updates, ensuring that the data remains relevant for observing current trends. Initial data processing involved filtering the dataset to focus solely on entries categorized under 'Canada' in geography, eliminating data irrelevant to the national focus of this research. This step was crucial to maintaining the clarity and relevance of the analysis. For key operations, please refer to [Appendix -@sec-data-cleaning]. 
 
 ## Variables
 
-To better understand data, key variables extracted for this study include the year of data collection, education level, age group, and the average hourly wage rate. Notably, we have streamlined the 'Education level' from a broad range of categories into a numeric variable that aligns with ascending educational attainment, facilitating a quantitative analysis of its impact on wages. The age group has been limited to the 25-54 years range to focus on the most economically active segment of the population, avoiding potential outliers from younger individuals with less work experience and older individuals whose advanced education, such as doctoral degrees, could distort the analysis. Wage rates are presented in Canadian dollars per hour, reflecting pre-tax earnings, inclusive of tips, commissions, and bonuses.
+To better understand the data, key variables extracted for this study include the year of data collection, education level, age group, and the average hourly wage rate. Notably, we have streamlined the 'Education level' from a broad range of categories into a numeric variable that aligns with ascending educational attainment, facilitating a quantitative analysis of its impact on wages. The age group has been limited to the 25-54 years range to focus on the most economically active segment of the population, avoiding potential outliers from younger individuals with less work experience and older individuals whose advanced education, such as doctoral degrees, could distort the analysis. Wage rates are presented in Canadian dollars per hour, reflecting pre-tax earnings, inclusive of tips, commissions, and bonuses.
 
 ```{r}
 #| label: tbl-display-clean-data
@@ -100,7 +99,7 @@ ggplot(cleaned_data, aes(x = Year, y = Avg.hourly.wage.rate, color = Education.l
   ) +
   scale_color_brewer(palette = "Set1")  # Keep the color palette for distinction
 ```
-@fig-display-clean-data built by `ggplot2` [@citeggplot] illustrates the distribution of average hourly wage rates across different educational levels from 2000 to 2019 for Canadian workers aged 25-54. Each dot represents the wage rate for a specific education level in a given year, with color coding to distinguish between educational categories, ranging from "0 – 8 years" to "University degree." The spread and upward trend of the points suggest that individuals with higher educational qualifications tend to have higher average hourly wages, and this trend persists over the 20-year period.
+@fig-display-clean-data, built by `ggplot2` [@citeggplot], illustrates the distribution of average hourly wage rates across different educational levels from 2000 to 2019 for Canadian workers aged 25-54. Each dot represents the wage rate for a specific education level in a given year, with color coding to distinguish between educational categories, ranging from "0 – 8 years" to "University degree." The spread and upward trend of the points suggest that individuals with higher educational qualifications tend to have higher average hourly wages, and this trend persists over the 20-year period.
 
 ## Measurements
 
@@ -108,7 +107,7 @@ The measurement of variables within this dataset was handled to ensure accuracy 
 
 For educational attainment, data entry occurs as individuals enter the workforce or update their qualifications, with categorizations reflecting the highest level of formal education completed. This data is collected through surveys and employment records, often as part of broader demographic data collection efforts by governmental agencies.
 
-Correlations between the variables will be examined at @sec-model, providing insights into how education levels are associated with hourly wages. By understanding these relationships, we can better infer the potential impact of education on earnings within the Canadian economy.
+Correlations between the variables will be examined in @sec-model, providing insights into how education levels are associated with hourly wages. By understanding these relationships, we can better infer the potential impact of education on earnings within the Canadian economy.
 
 
 # Model {#sec-model}
@@ -133,7 +132,7 @@ y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
 \end{aligned}
 $$
 
-The model is executed in R [@citeR] using the `rstanarm` package [@citerstanarm]. Default priors from `rstanarm` [@citerstanarm] are used, set with a mean of zero and a conservative standard deviation.
+The model is executed in `R` [@citeR] using the `rstanarm` package [@citerstanarm]. Default priors from `rstanarm` [@citerstanarm] are used, set with a mean of zero and a conservative standard deviation.
 
 ## Model justification
 
