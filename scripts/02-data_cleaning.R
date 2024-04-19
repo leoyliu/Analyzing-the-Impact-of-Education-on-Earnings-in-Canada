@@ -4,17 +4,17 @@
 # Date: 31 March 2024
 # Contact: leoy.liu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: raw_data.csv
+# Any other information needed? -
+
 
 #### Workspace setup ####
 library(tidyverse)
 library(arrow)
 
+
 #### Clean data ####
 raw_data <- read_csv("data/raw_data/raw_data.csv")
-
-# desired_age_groups <- c("15-24 years", "25-54 years", "55 years and over")
 
 cleaned_data <-
   raw_data |>
@@ -39,6 +39,7 @@ education_levels_ordered <- c("0 - 8  years", "High school graduate",
 cleaned_data <- cleaned_data %>%
   mutate(`Education level` = factor(`Education level`, levels = education_levels_ordered)) %>%
   mutate(Education_numeric = as.numeric(`Education level`))
+
 
 #### Save data ####
 write_csv(cleaned_data, "data/analysis_data/analysis_data.csv")

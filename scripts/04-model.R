@@ -1,11 +1,11 @@
 #### Preamble ####
-# Purpose: Models
+# Purpose: Models the dataset with simple linear regression
 # Author: Yuanyi (Leo) Liu
 # Date: 31 March 2024
 # Contact: leoy.liu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: 02-data_cleaning.R
+# Any other information needed? -
 
 
 #### Workspace setup ####
@@ -29,11 +29,11 @@ first_model <-
     prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
     prior_aux = exponential(rate = 1, autoscale = TRUE),
     seed = 853
-)
+  )
 
 
 #### Save model ####
 saveRDS(
   first_model,
-  file = "models/first_model.rds"
+  file = "models/linear_model.rds"
 )

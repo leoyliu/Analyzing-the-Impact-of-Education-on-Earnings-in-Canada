@@ -4,20 +4,16 @@
 # Email: leoy.liu@mail.utoronto.ca
 # Date: 31 March 2024
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: -
+# Any other information needed? -
 
 
 #### Workspace setup ####
 library(tidyverse)
 library(dplyr)
 
-#### Simulate data ####
-# In this simulation, we focus on two different age categories for birth rate data: younger and older groups.
-# The simulation starts with birth rate of 6 age groups.
-# The simulated data is derived from a normal distribution instead of a poisson distribution since birth rate can be more than just integers.
-# By applying the abs() function, we guarantee the recording of only positive birth rates for the older age group.
 
+#### Simulate data ####
 set.seed(853)
 
 # Set parameters for simulation
